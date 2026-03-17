@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0f172a;
+  --foreground: #e2e8f0;
 }
 
 @theme inline {
@@ -14,8 +14,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0f172a;
+    --foreground: #e2e8f0;
   }
 }
 
@@ -23,4 +23,117 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Markdown Styling */
+.markdown-content {
+  @apply text-slate-200;
+}
+
+.markdown-content h1 {
+  @apply text-3xl font-bold mb-6 mt-8 text-white pb-3 border-b border-teal-600/50;
+}
+
+.markdown-content h2 {
+  @apply text-2xl font-bold mb-4 mt-6 text-white;
+}
+
+.markdown-content h3 {
+  @apply text-xl font-semibold mb-3 mt-5 text-teal-300;
+}
+
+.markdown-content h4 {
+  @apply text-lg font-semibold mb-2 mt-4 text-slate-200;
+}
+
+.markdown-content p {
+  @apply mb-4 leading-relaxed text-base text-slate-300;
+}
+
+.markdown-content ul,
+.markdown-content ol {
+  @apply mb-4 ml-6 space-y-2;
+}
+
+.markdown-content ul {
+  @apply list-disc;
+}
+
+.markdown-content ol {
+  @apply list-decimal;
+}
+
+.markdown-content li {
+  @apply leading-relaxed text-slate-300;
+}
+
+.markdown-content li > ul,
+.markdown-content li > ol {
+  @apply mt-2 mb-2;
+}
+
+.markdown-content strong {
+  @apply font-bold text-white;
+}
+
+.markdown-content em {
+  @apply italic text-slate-300;
+}
+
+.markdown-content code {
+  @apply bg-slate-900/50 px-2 py-1 rounded text-sm font-mono text-teal-400 border border-slate-700/50;
+}
+
+.markdown-content pre {
+  @apply bg-slate-900/50 p-4 rounded-lg overflow-x-auto mb-4 border border-slate-700/50;
+}
+
+.markdown-content pre code {
+  @apply bg-transparent p-0 text-slate-300 border-0;
+}
+
+.markdown-content blockquote {
+  @apply border-l-4 border-teal-600 pl-4 italic my-4 text-slate-300 bg-teal-900/20 py-2 rounded-r;
+}
+
+.markdown-content a {
+  @apply text-teal-400 hover:text-teal-300 underline transition-colors;
+}
+
+.markdown-content table {
+  @apply w-full border-collapse mb-4 overflow-hidden rounded-lg;
+}
+
+.markdown-content th {
+  @apply bg-slate-900/50 text-left p-3 font-semibold border border-slate-700 text-white;
+}
+
+.markdown-content td {
+  @apply p-3 border border-slate-700 text-slate-300;
+}
+
+.markdown-content tr:nth-child(even) {
+  @apply bg-slate-800/30;
+}
+
+.markdown-content img {
+  @apply max-w-full h-auto rounded-lg shadow-md my-4;
+}
+
+.markdown-content hr {
+  @apply my-8 border-t border-slate-700;
+}
+
+/* Numbered list inside content */
+.markdown-content > ol > li {
+  @apply mb-6;
+}
+
+.markdown-content > ol > li > strong {
+  @apply text-lg block mb-2 text-teal-400;
+}
+
+/* Nested lists spacing */
+.markdown-content li > p {
+  @apply mb-2;
 }
