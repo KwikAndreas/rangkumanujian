@@ -52,69 +52,54 @@ S2(config)# exit
 
 ### Skenario Perusahaan
 
-Sebuah perusahaan besar memiliki gedung 5 lantai dengan ratusan karyawan yang dibagi menjadi beberapa departemen: **HRD, Finance, IT, dan Operasional**. Perusahaan membutuhkan manajemen jaringan yang terpusat agar tidak perlu mengonfigurasi VLAN secara manual di setiap switch.
+Sebuah perusahaan besar memiliki gedung 5 lantai dengan ratusan karyawan yang dibagi menjadi beberapa departemen (HRD, Finance, IT, dan Operasional). Perusahaan ini membutuhkan manajemen jaringan yang terpusat agar tidak perlu repot mengonfigurasi VLAN di setiap switch secara manual.
 
-### Mode VTP Server - Di Data Center IT
+### Analisa Penggunaan VTP Server
 
-**Penempatan:** Switch Core atau Switch Distribution di ruang Data Center IT
+Tipe VTP Server diterapkan pada Switch Core atau Switch Distribution yang berada di ruang Data Center IT. Alasannya: Administrator jaringan dapat memusatkan pembuatan, modifikasi, dan penghapusan VLAN (seperti VLAN HRD, VLAN Finance) hanya dari satu perangkat ini. Semua perubahan akan otomatis dikirimkan ke seluruh jaringan.
 
-**Fungsi:**
+### Analisa Penggunaan VTP Client
 
-- Memusatkan pembuatan, modifikasi, dan penghapusan VLAN
-- Membuat VLAN untuk setiap departemen (VLAN HRD, VLAN Finance, dll)
-- Mendistribusikan perubahan otomatis ke seluruh jaringan
+Tipe VTP Client diterapkan pada seluruh Switch Access yang ada di setiap lantai gedung. Alasannya: Switch di setiap lantai hanya bertugas menerima database VLAN dari VTP Server dan menerapkannya ke port komputer karyawan. Mode ini mencegah teknisi lokal atau pihak tak berwenang membuat atau menghapus VLAN secara tidak sengaja di lantai tersebut.
 
-**Alasan:** Administrator hanya perlu mengkonfigurasi satu perangkat pusat, dan semua switch lain akan menerima update VLAN secara otomatis.
+### Analisa Penggunaan VTP Transparent
 
-### Mode VTP Client - Di Setiap Lantai Gedung
-
-**Penempatan:** Switch Access di setiap lantai gedung
-
-**Fungsi:**
-
-- Menerima database VLAN dari VTP Server
-- Menerapkan VLAN ke port komputer karyawan
-- Mencegah modifikasi VLAN lokal
-
-**Alasan:** Mode ini mencegah teknisi lokal atau pihak tak berwenang membuat atau menghapus VLAN secara tidak sengaja di lantai tersebut.
-
-### Mode VTP Transparent - Di Ruang R&D
-
-**Penempatan:** Switch khusus di ruang Research and Development (R&D)
-
-**Fungsi:**
-
-- Membuat Extended VLAN yang bersifat lokal (misalnya Extended VLAN 2000)
-- Meneruskan update VTP dari pusat ke switch lain
-- Menjaga isolasi jaringan R&D
-
-**Alasan:** Ruang R&D membutuhkan jaringan terisolasi, sehingga VLAN khusus tidak boleh tersebar ke gedung lain. Mode transparent tetap meneruskan update VTP, tetapi tidak mengubah database VLAN-nya sendiri, sehingga privasi terjaga.
+Tipe VTP Transparent diterapkan pada switch khusus di ruang R&D (Research and Development) yang membutuhkan jaringan terisolasi. Alasannya: Ruang R&D membutuhkan VLAN khusus (misalnya Extended VLAN) yang tidak boleh tersebar ke gedung lain. Dengan mode transparent, switch ini tetap meneruskan update VTP dari pusat ke switch lain, tetapi tidak ikut mengubah database VLAN-nya sendiri, sehingga privasinya tetap terjaga.
 
 ## 3. Routing
 
-### Dukungan Protokol Routing
+Secara garis besar, routing dibagi menjadi dua: Static Routing (dikonfigurasi manual oleh admin) dan Dynamic Routing (router saling bertukar informasi secara otomatis menggunakan Routing Protocol).
 
-**Kompatibilitas:** Semua switch Layer 3 Cisco Catalyst mendukung routing protocols, tetapi beberapa model memerlukan **enhanced software** (perangkat lunak yang ditingkatkan) untuk fitur routing protocol tertentu.
+### Berikut adalah contoh dan cara kerja dari masing-masing Dynamic Routing Protocol yang paling sering digunakan
 
-### Inter-VLAN Routing dengan SVI (Switch Virtual Interfaces)
+#### A. RIP (Routing Information Protocol)
 
-**Definisi:** Layer 3 switching yang menggunakan Switch Virtual Interfaces adalah metode inter-VLAN routing yang dapat dikonfigurasi pada switch Catalyst 2960.
+- **Kategori:** Distance-Vector Protocol
+- **Cara Kerja:** RIP menggunakan metrik **Hop Count** (jumlah lompatan/router yang harus dilewati). Router memilih jalur dengan hop paling sedikit. RIP memiliki batasan maksimal 15 lompatan; jika tujuan berada di lompatan ke-16, jaringan dianggap tidak dapat dijangkau (_unreachable_). Router RIP saling mengirim pembaruan tabel routing secara berkala (biasanya setiap 30 detik).
+- **Contoh Penggunaan:** Cocok untuk jaringan berskala sangat kecil karena sederhana, tetapi kurang efisien untuk jaringan besar.
 
-**Fungsi SVI:**
+#### B. OSPF (Open Shortest Path First)
 
-- Menyediakan gateway bagi sebuah VLAN
-- Memungkinkan traffic dirutekan masuk atau keluar dari VLAN
-- Menyediakan konektivitas Layer 3 IP ke switch
+- **Kategori:** Link-State Protocol
+- **Cara Kerja:** OSPF menggunakan algoritma **Dijkstra's Shortest Path First**. Alih-alih menghitung jumlah lompatan, OSPF memakai metrik **Cost** berdasarkan bandwidth (kecepatan kabel). Setiap router OSPF mengumpulkan informasi dari seluruh jaringan dan membentuk "peta" topologi secara mandiri, lalu memilih jalur tercepat meskipun melewati lebih banyak router.
+- **Contoh Penggunaan:** Standar industri untuk jaringan berskala menengah hingga besar (misalnya jaringan antar gedung di kampus tingkat universitas).
 
-**Keuntungan:** SVI memproses routing lebih cepat dibanding router tradisional karena berada dalam hardware switch.
+#### C. EIGRP (Enhanced Interior Gateway Routing Protocol)
 
-### Layer 3 Interfaces (Routed Ports)
+- **Kategori:** Advanced Distance-Vector Protocol (sering disebut Hybrid)
+- **Cara Kerja:** EIGRP awalnya diciptakan khusus oleh Cisco. EIGRP menggunakan kombinasi **Bandwidth** dan **Delay** sebagai metrik utama. EIGRP menyimpan jalur terbaik (_Successor_) dan jalur cadangan (_Feasible Successor_). Jika jalur utama putus, traffic dapat dipindahkan ke jalur cadangan dalam hitungan milidetik tanpa menghitung ulang dari awal.
+- **Contoh Penggunaan:** Sangat cocok untuk perusahaan berskala besar yang mayoritas perangkat jaringannya menggunakan Cisco (meskipun saat ini EIGRP mulai dibuka untuk non-Cisco).
 
-**Definisi:** Routed port adalah antarmuka Layer 3 pada switch.
+#### D. BGP (Border Gateway Protocol)
 
-**Penempatan:** Routed ports biasanya diimplementasikan di antara lapisan Distribution dan Core untuk menghubungkan switch layer 3 dengan router atau switch layer 3 lainnya.
+- **Kategori:** Path-Vector Protocol
+- **Cara Kerja:** BGP adalah protokol "kelas berat" yang menopang Internet global. BGP tidak digunakan untuk merutekan data antar komputer dalam satu gedung, melainkan antar **Autonomous System (AS)** atau antar penyedia layanan internet (ISP). Penentuan rute didasarkan pada kebijakan (_policy_) dan aturan lintas wilayah/negara.
+- **Contoh Penggunaan:** Digunakan oleh perusahaan telekomunikasi (seperti Telkom, Biznet) untuk menghubungkan jaringan ke internet global, serta oleh perusahaan besar seperti Google dan Facebook.
 
-**Fungsi:** Memungkinkan routing langsung antar kelompok jaringan tanpa perlu Virtual Interface.
+### Analogi Sederhana
+
+- **RIP:** Seperti supir yang memilih jalan dengan jumlah lampu merah paling sedikit, tanpa mempertimbangkan apakah jalannya sempit atau macet.
+- **OSPF:** Seperti supir yang memakai Google Maps untuk mencari jalan paling lancar dan cepat, meskipun harus belok lebih banyak.
 
 ## 4. Case Study Universitas - Desain Jaringan Lab
 
