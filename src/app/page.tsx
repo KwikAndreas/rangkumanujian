@@ -61,7 +61,7 @@ export default function Home() {
                 </div>
                 <div className="text-right">
                   <span className="text-xs font-medium text-teal-400 tracking-wider uppercase">
-                    Semester
+                    Semester 6
                   </span>
                 </div>
               </div>
@@ -116,7 +116,7 @@ export default function Home() {
                 </div>
                 <div className="text-right">
                   <span className="text-xs font-medium text-purple-400 tracking-wider uppercase">
-                    Semester
+                    Semester 6
                   </span>
                 </div>
               </div>
@@ -145,6 +145,83 @@ export default function Home() {
             </div>
             <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-600 to-purple-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
           </Link>
+
+          {/* Arsip Card */}
+          <Link
+            href="/arsip"
+            className="group relative bg-gradient-to-br from-slate-800 to-slate-900 rounded-lg overflow-hidden border border-slate-700/50 hover:border-amber-600/50 transition-all duration-500 md:col-span-2"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-amber-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div className="relative p-8">
+              <div className="flex items-start justify-between mb-6">
+                <div className="p-3 bg-gradient-to-br from-amber-600 to-amber-700 rounded-md shadow-lg shadow-amber-900/50">
+                  <svg
+                    className="w-7 h-7 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
+                    />
+                  </svg>
+                </div>
+                <div className="text-right">
+                  <span className="text-xs font-medium text-amber-400 tracking-wider uppercase">
+                    Materi Lama
+                  </span>
+                </div>
+              </div>
+              <h2 className="text-2xl font-semibold text-white mb-2 group-hover:text-amber-300 transition-colors">
+                Arsip
+              </h2>
+              <p className="text-slate-400 text-sm mb-6 leading-relaxed">
+                Akses rangkuman materi dari ujian yang sudah lewat (UTS dan UAS
+                tahun sebelumnya)
+              </p>
+              <div className="flex items-center text-amber-400 text-sm font-medium">
+                <span>Lihat Arsip</span>
+                <svg
+                  className="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </div>
+            </div>
+            <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-600 to-amber-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
+          </Link>
+        </div>
+
+        <div className="mt-20 max-w-5xl mx-auto">
+          <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-lg p-8 border border-slate-700/50">
+            <div className="flex items-start gap-6">
+              <svg
+                className="w-6 h-6 text-teal-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <div className="flex-1"></div>
+            </div>
+          </div>
         </div>
 
         {/* Info Section */}
