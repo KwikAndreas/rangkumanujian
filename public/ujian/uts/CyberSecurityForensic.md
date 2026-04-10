@@ -55,13 +55,25 @@ Acquisition adalah tugas pertama dalam investigasi digital forensics yang bertuj
 
 (Catatan: Fungsi tingkat lanjut ditambahkan dari hasil pencarian internet untuk melengkapi slide)
 
-- Penjelasan Tools: Wireshark adalah network analysis tool (packet sniffer) berjenis open-source yang menangkap paket data secara real-time dan menampilkannya dalam format yang dapat dibaca manusia.
-- Fungsi Utama:
-  - Menghasilkan daftar top 10 web sites yang dikunjungi pengguna dalam jaringan.
-  - Menghasilkan daftar aktivitas dari pengguna internal (Top 10 internal users) untuk melihat pola transmisi data, misalnya jika seorang karyawan mengakses situs terlarang saat jam kerja.
-  - Troubleshooting & Network Forensics: Mendiagnosis masalah jaringan, mengecek tingkat keamanan jaringan, mendeteksi lalu lintas yang mencurigakan (seperti malware atau intrusion), dan memantau komunikasi secara menyeluruh (sniffing).
-- Apa yang bisa dilihat (dianalisis):
-  - Melihat secara rinci struktur header protokol, source dan destination IP address, MAC Address, serta port yang digunakan.
-  - Melihat payload data (isi konten dari paket data tersebut). jika protokol yang digunakan tidak terenkripsi (seperti HTTP, atau FTP biasa), Wireshark dapat digunakan untuk melihat teks secara utuh (cleartext), termasuk menangkap jejak aktivitas atau credential (seperti username dan password).
+### Wireshark 
+  - Penjelasan tools: Wireshark adalah network analysis tool (packet sniffer) berjenis open-source yang menangkap paket data secara real-time dan menampilkannya dalam format yang dapat dibaca manusia.
+  - Fungsi utama:
+    - Menghasilkan daftar top 10 web sites yang dikunjungi pengguna dalam jaringan.
+    - Menghasilkan daftar aktivitas dari pengguna internal (Top 10 internal users) untuk melihat pola transmisi data, misalnya jika seorang karyawan mengakses situs terlarang saat jam kerja.
+    - Troubleshooting & Network Forensics: Mendiagnosis masalah jaringan, mengecek tingkat keamanan jaringan, mendeteksi lalu lintas yang mencurigakan (seperti malware atau intrusion), dan memantau komunikasi secara menyeluruh (sniffing).
+  - Apa yang bisa dilihat (dianalisis):
+    - Struktur header protokol, source dan destination IP address, MAC Address, serta port yang digunakan.
+    - Payload data (isi konten paket). Jika protokol tidak terenkripsi (misalnya HTTP atau FTP), data cleartext seperti aktivitas pengguna dan credential dapat terlihat.
+
+### FTK Imager
+  - Penjelasan tools: FTK Imager adalah tools digital forensics untuk akuisisi dan preview barang bukti digital tanpa mengubah data asli.
+  - Fungsi utama:
+    - Membuat forensic image (misalnya format E01 atau RAW) dari media penyimpanan.
+    - Melakukan verifikasi integritas image dengan hash (MD5/SHA1/SHA256) agar valid sebagai barang bukti.
+    - Menangkap data volatile seperti RAM (memory capture) pada kondisi tertentu.
+    - Menampilkan struktur file system dan membantu identifikasi file yang terhapus.
+  - Apa yang bisa dilihat (dianalisis):
+    - Partisi, folder, metadata file (timestamp, ukuran, atribut), dan artefak file terhapus.
+    - Isi logical evidence item dari image/disk untuk proses triage awal sebelum analisis lanjutan di tools forensik lain.
 
 ---
